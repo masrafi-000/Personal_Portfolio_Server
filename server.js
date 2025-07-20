@@ -4,21 +4,22 @@ import sendMailRoute from "./src/routes/sendMail.js";
 
 dotenv.config();
 
-const app = fastify({
+const fastify = fastify({
     logger: true,
   });
 
-  app.register(sendMailRoute);
+  fastify.register(sendMailRoute);
   // Health check
-  app.get("/", async (request, reply) => {
+  fastify.get("/", async (request, reply) => {
     return { hello: "world" };
   });
   
   const start = async () => {
+    const PORT = process.env.PORT || 5000;
     try {
-      await app.listen({ port: 5000 });
+      await fastify.listen({ port: PORT });
     } catch (err) {
-      app.log.error(err);
+      fastify.log.error(err);
       process.exit(1);
     }
   };
